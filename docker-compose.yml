@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nexus}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nexus}
+      POSTGRES_DB: ${POSTGRES_DB:-nexus}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nexus}"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        WITH_OCR: ${WITH_OCR:-0}
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://nexus:nexus@db:5432/nexus}
+      CONTENT_DIR: /content
+      WATCHFILES_FORCE_POLLING: "true"   # --reload в Docker на Windows/macOS: иначе правки не подхватываются
+      LLM_PROVIDER: ${LLM_PROVIDER:-none}
+      OLLAMA_URL: ${OLLAMA_URL:-http://ollama:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:7b-instruct}
+      GIGACHAT_CREDENTIALS: ${GIGACHAT_CREDENTIALS:-}
+      GIGACHAT_SCOPE: ${GIGACHAT_SCOPE:-GIGACHAT_API_PERS}
+      GIGACHAT_CA_BUNDLE: ${GIGACHAT_CA_BUNDLE:-}
+    volumes:
+      - ./content:/content:ro
+      - ./backend/app:/srv/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_PROXY: http://backend:8000
+      VITE_POLL: "1"
+    volumes:
+      - ./frontend/src:/srv/src
+      - ./frontend/public:/srv/public
+      - ./frontend/index.html:/srv/index.html
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  # Локальная LLM: docker compose --profile llm up
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["llm"]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+
+volumes:
+  pgdata:
+  ollama:

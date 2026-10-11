@@ -1,0 +1,12 @@
+numpy
+pandas
+pyarrow                 # parquet
+scikit-learn
+catboost
+matplotlib              # графики для отчётов и сводки опроса
+jupyter
+# для eval.py: сравнение Щита с бейзлайном из бэкенда
+pydantic==2.11.5
+pydantic-settings==2.9.1
+httpx==0.28.1
+# позже: sentence-transformers (rubert-tiny2), easyocr

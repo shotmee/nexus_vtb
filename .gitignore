@@ -1,0 +1,37 @@
+# Материалы организаторов и заявка — не публикуем
+tz.txt
+Положение*.pdf
+
+# Секреты
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+dist/
+
+# ML: большие артефакты не коммитим (кроме .gitkeep)
+ml/data/*
+!ml/data/.gitkeep
+# ручной тест Щита (150 сообщений от команды) коммитим
+!ml/data/messages_test_manual_*.csv
+!ml/data/messages_test_extra_*.csv
+ml/models/*
+!ml/models/.gitkeep
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# служебные файлы CatBoost
+catboost_info/
+*.tsbuildinfo

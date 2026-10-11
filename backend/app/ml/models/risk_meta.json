@@ -1,0 +1,21 @@
+{
+  "features": [
+    "minutes_since_stranger_incoming",
+    "stranger_incoming_24h",
+    "forward_share",
+    "is_new_recipient",
+    "unique_stranger_senders_24h",
+    "unique_stranger_senders_7d",
+    "client_age",
+    "card_age_days",
+    "turnover_spike",
+    "is_night",
+    "cash_withdrawal_after_incoming"
+  ],
+  "thr_high": 0.3,
+  "thr_medium": 0.1,
+  "trained_at": "2026-10-07T23:04:30",
+  "best_iteration": 534,
+  "data": "синтетика ml/src/gen_transactions.py, seed=42",
+  "split_seed": 42
+}

@@ -1,0 +1,6 @@
+# Необязательно: распознавание скриншотов в Щите (≈1 ГБ с PyTorch).
+# Без этого Щит работает с текстом, а для картинки просит вставить текст.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+easyocr==1.7.2

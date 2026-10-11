@@ -1,0 +1,9 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+pydantic==2.11.5
+pydantic-settings==2.9.1
+sqlalchemy==2.0.41
+psycopg[binary]==3.2.9
+httpx==0.28.1
+pytest==8.4.0
+catboost==1.2.10        # скоринг перевода (app/ml/risk_model.py); без него — правила
